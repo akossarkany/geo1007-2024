@@ -1,6 +1,7 @@
 var allFunctions = function () {
   "use strict";
 
+
   console.log("entering all functions");
   var createTableFromJsonResponse = function (data) {
     document.querySelector("main .forDebug").append(JSON.stringify(data));
@@ -31,6 +32,10 @@ var allFunctions = function () {
       document.querySelector("main .messages").append("no results found");
     }
   };
+
+  var clearElementByClass = function (cl) {
+    Array.from(document.getElementsByClassName(cl)).forEach(function (elem) {elem.remove();});
+  }
 
   var getPlacenames_plain_javascript = function (
     postalcodeInput,
@@ -105,7 +110,9 @@ var allFunctions = function () {
     request.open("GET", requestUrl, true);
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
+        clearElementByClass("toremovedebug");
         var textarea = document.createElement("textarea");
+        textarea.classList.add("toremovedebug");
         textarea.rows = "20";
         textarea.cols = "60";
         textarea.style.border = "solid 1px black";
@@ -127,14 +134,17 @@ var allFunctions = function () {
   };
 
   var handleXMLResponse = function (data) {
+    clearElementByClass("toremovetable");
     var feature = data.getElementsByTagName("intersection")[0];
     if (typeof feature !== "undefined" && feature.childNodes.length > 0) {
       var headerRow = document.createElement("tr");
+      headerRow.classList.add("toremovetable");
       headerRow.innerHTML = "<th>Property name</th><th>value</th>";
       document.querySelector("#xmlDataAsTable").append(headerRow);
       for (var i = 0; i < feature.childNodes.length; i++) {
         if (feature.childNodes[i].nodeName != "#text") {
           var row = document.createElement("tr");
+          row.classList.add("toremovetable");
           row.style.display = "none";
           row.innerHTML =
             "<td>" +
@@ -155,7 +165,9 @@ var allFunctions = function () {
   };
 
   var getAndDisplayMap = function (wms_request) {
+    clearElementByClass("toremovemap");
     var img = document.createElement("img");
+    img.classList.add("toremovemap");
     img.style.display = "none";
     img.src = wms_request;
     document.querySelector("main .mapDiv").append(img);
@@ -300,7 +312,10 @@ var allFunctions = function () {
 
   document
     .querySelector("section#geonames button")
-    .addEventListener("click", function (event) {
+    .addEventListener("click", function (event) {  
+      clearElementByClass("toremovetable");
+      clearElementByClass("toremovemap");
+      clearElementByClass("toremovedebug");
       searchFromInput();
     });
 
@@ -310,6 +325,9 @@ var allFunctions = function () {
       // 13 = the enter key
       if (event.keyCode === 13) {
         searchFromInput();
+        clearElementByClass("toremovetable");
+        clearElementByClass("toremovemap");
+        clearElementByClass("toremovedebug");
       }
     });
 };
