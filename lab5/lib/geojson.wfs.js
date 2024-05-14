@@ -115,8 +115,6 @@ function insertPoint(url_wfs, typeName, namespace_prefix, namespace_uri, featPro
 		+ '</wfs:Transaction>';
 
 	var xhr = new XMLHttpRequest();
-  xhr.mozAnon = false;
-  xhr.withCredentials = true;
 	xhr.open("POST", url_wfs, true);
 	xhr.setRequestHeader("Content-Type", "text/xml");
 	xhr.onreadystatechange = function () {
