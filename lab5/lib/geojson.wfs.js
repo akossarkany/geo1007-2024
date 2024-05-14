@@ -117,7 +117,6 @@ function insertPoint(url_wfs, typeName, namespace_prefix, namespace_uri, featPro
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url_wfs, true);
 	xhr.setRequestHeader("Content-Type", "text/xml");
-  xhr.setRequestHeader("Origin", null);
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 

@@ -47,16 +47,16 @@ var map = L.map("map-canvas", {
 
 // 2. aerial photo * not working at this moment (see Assignment)
 //    - can be switched on/off by toggle thru L.control.layers (see below in this script)
-var wms_aerial_url = "https://geodata1.nationaalgeoregister.nl/luchtfoto/wms?";
+var wms_aerial_url = "https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0?";
 var basemap_aerial = new L.tileLayer.wms(wms_aerial_url, {
-  layers: ["luchtfoto_png"],
+  layers: ["2023_orthoHR"],
   styles: "",
   format: "image/png",
   transparent: true,
   pointerCursor: true,
 });
 basemap_aerial.getAttribution = function () {
-  return 'Luchtfoto WMS <a href="https://www.kadaster.nl">Kadaster</a>.';
+  return 'Luchtfoto WMS <a href="https://www.pdok.nl/-/nu-hoge-resolutie-luchtfoto-2023-bij-pdok">PDOK</a>.';
 };
 
 // 3. a thematic WMS as overlay map
@@ -71,8 +71,61 @@ var sound = new L.tileLayer.wms(wms_sound_url, {
   pointerCursor: true,
 });
 
+var wms_delft_url = "http://localhost:8080/geoserver/delft-parcels/wms?";
+var parcels = new L.tileLayer.wms(wms_delft_url, {
+  layers: ["delft-parcels:parcels"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution: "",
+  pointerCursor: true,
+});
+
+var delft = new L.tileLayer.wms(wms_delft_url, {
+  layers: ["delft-parcels:GEBOUW_VLAK", "delft-parcels:WEGDEEL_VLAK"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution: "",
+  pointerCursor: true,
+});
+
+var delft2 = new L.tileLayer.wms(wms_delft_url, {
+  layers: ["delft-parcels:GEBOUW_VLAK", "delft-parcels:WEGDEEL_VLAK"],
+  styles: ["polygon", "simple_roads"],
+  format: "image/png",
+  transparent: true,
+  attribution: "",
+  pointerCursor: true,
+});
+
+var delft = new L.tileLayer.wms(wms_delft_url, {
+  layers: ["delft-parcels:GEBOUW_VLAK", "delft-parcels:WEGDEEL_VLAK"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution: "",
+  pointerCursor: true,
+});
+
+var wms_ahn_url = "https://service.pdok.nl/rws/ahn/wms/v1_0?";
+var ahn = new L.tileLayer.wms(wms_ahn_url, {
+  layers: ["dtm_05m"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution: 
+    '© <a href="https://www.nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/94e5b115-bece-4140-99ed-93b8f363948e"> PDOK</a>',
+  pointerCursor: true,
+});
+
+
 var overlays = {
   "Road noise [WMS]": sound,
+  "Parcels: Delft [WMS]": parcels,
+  "AHN 4": ahn,
+  "Buildings and Roads: Delft": delft,
+  "Buildings and Roads basic: Delft ": delft2
 };
 
 var baseLayers = {
